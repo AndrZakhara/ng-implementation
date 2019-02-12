@@ -1,10 +1,13 @@
 (function() {
-  const directives = [
-    {}
-  ];
+  const directives = [];
   const smallAngular = {
-    directive(type) {
-      const directive = '';
+    directive(type, cb) {
+      const directive = {
+        type,
+        cb
+      };
+
+      directives.push(directive);
     },
     compile(node) {
       console.log('compile: ', node); //eslint-disable-line
@@ -30,23 +33,26 @@
     }
   };
 
-  // smallAngular.directive('ng-model', function(el) {
-  //   console.log('ng-model');
-  // });
-  // smallAngular.directive('ng-click', function(el) {
-  //   console.log('ng-click');
-  // });
+  smallAngular.directive('ng-model', function(el) {
+    console.log('ng-model'); //eslint-disable-line
+  });
 
-  // smallAngular.directive('ng-show', function(el) {
-  //   console.log('ng-show');
-  // });
+  smallAngular.directive('ng-click', function(el) {
+    console.log('ng-click'); //eslint-disable-line
+  });
 
-  // smallAngular.directive('ng-hide', function(el) {
-  //   console.log('ng-hide');
-  // });
-  // smallAngular.directive('make_short', function(el){
-  //  console.log('make_short');
-  // })
+  smallAngular.directive('ng-show', function(el) {
+    console.log('ng-show'); //eslint-disable-line
+  });
+
+  smallAngular.directive('ng-hide', function(el) {
+    console.log('ng-hide'); //eslint-disable-line
+  });
+
+  smallAngular.directive('make_short', function(el) {
+    console.log('make_short'); //eslint-disable-line
+  });
+
   window.smallAngular = smallAngular;
 }());
 
