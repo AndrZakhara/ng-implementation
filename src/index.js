@@ -4,12 +4,15 @@
     directive(type, cb) {
       directives[type] = cb;
     },
-    compile({ attributes }) {
-      for (let i = 0; i < attributes.length; i++) {
+    compile(node) {
+      const { attributes } = node;
+      const { length } = attributes;
+
+      for (let i = 0; i < length; i++) {
         const { name } = attributes[i];
 
         if (name in directives) {
-          directives[name]();
+          directives[name](node);
         }
       }
     },
@@ -34,23 +37,23 @@
   };
 
   smallAngular.directive('ng-model', function(el) {
-    console.log('ng-model'); //eslint-disable-line
+    console.log('ng-model: ', el); //eslint-disable-line
   });
 
   smallAngular.directive('ng-click', function(el) {
-    console.log('ng-click'); //eslint-disable-line
+    console.log('ng-click: ', el); //eslint-disable-line
   });
 
   smallAngular.directive('ng-show', function(el) {
-    console.log('ng-show'); //eslint-disable-line
+    console.log('ng-show: ', el); //eslint-disable-line
   });
 
   smallAngular.directive('ng-hide', function(el) {
-    console.log('ng-hide'); //eslint-disable-line
+    console.log('ng-hide: ', el ); //eslint-disable-line
   });
 
   smallAngular.directive('make_short', function(el) {
-    console.log('make_short'); //eslint-disable-line
+    console.log('make_short: ', el); //eslint-disable-line
   });
 
   window.smallAngular = smallAngular;
@@ -61,9 +64,3 @@ document.onreadystatechange = () => {
     window.smallAngular.bootstrap('#app');
   }
 };
-
-// smallAngular.bootstrap(node)
-/*
-mount app to this node
-or
-find data attr ng-app - mount app to this node*/
