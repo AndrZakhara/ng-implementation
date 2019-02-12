@@ -1,17 +1,17 @@
 (function() {
-  const directives = [];
+  const directives = {};
   const smallAngular = {
     directive(type, cb) {
-      const directive = {
-        type,
-        cb
-      };
-
-      directives.push(directive);
+      directives[type] = cb;
     },
-    compile(node) {
-      console.log('compile: ', node); //eslint-disable-line
-      // directives['ng-click'].forEach(cb => cb(node));
+    compile({ attributes }) {
+      for (let i = 0; i < attributes.length; i++) {
+        const { name } = attributes[i];
+
+        if (name in directives) {
+          directives[name]();
+        }
+      }
     },
     bootstrap(node) {
       let ngElement = node ? document.querySelector(node) : null;
@@ -19,13 +19,13 @@
       if (node && ngElement) {
         ngElement.setAttribute('ng-app', '');
       } else {
-        const allNodes = document.querySelectorAll('*');
-        ngElement = [].slice.call(allNodes, 0).find(el => el.hasAttribute('ng-app'));
+        ngElement = document.querySelector('[ng-app]');
       }
 
       if (ngElement) {
         const allNodes = ngElement.querySelectorAll('*');
-        console.log(allNodes); //eslint-disable-line
+
+        this.compile(ngElement);
         allNodes.forEach(el => {
           this.compile(el);
         });

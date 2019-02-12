@@ -9,12 +9,10 @@
   <script src="bundle.js"></script>
   <title>App-ng</title>
 </head>
-<body id='app'>
-  <div ng-controller="Controller">
-    Hello <input ng-model='name'> <hr/>
-    <span ng-bind="name">
-      <p>Lorem ipsum dolor sit.</p>
-    </span> <br/>
-  </div>
+<body ng-app ng-init="name='ivan'">
+  <div ng-show="true"> Welcome </div>
+  <input ng-model="name"/>
+  <p ng-make-short>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, est.</p>
+  <p ng-bind="name"></p>
 </body>
 </html>
