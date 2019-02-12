@@ -20,10 +20,9 @@
         ngElement = [].slice.call(allNodes, 0).find(el => el.hasAttribute('ng-app'));
       }
 
-      const allNodes = ngElement.querySelectorAll('*');
-      console.log(allNodes); //eslint-disable-line
-
       if (ngElement) {
+        const allNodes = ngElement.querySelectorAll('*');
+        console.log(allNodes); //eslint-disable-line
         allNodes.forEach(el => {
           this.compile(el);
         });
