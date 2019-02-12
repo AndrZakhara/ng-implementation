@@ -1,40 +1,64 @@
 (function() {
-  const directives = [{}]
+  const directives = [
+    {}
+  ];
+  const smallAngular = {
+    directive(type) {
+      const directive = '';
+    },
+    compile(node) {
+      console.log('compile: ', node); //eslint-disable-line
+      // directives['ng-click'].forEach(cb => cb(node));
+    },
+    bootstrap(node) {
+      let ngElement = node ? document.querySelector(node) : null;
 
-const smallAngular = {
-  directive() {
+      if (node && ngElement) {
+        ngElement.setAttribute('ng-app', '');
+      } else {
+        const allNodes = document.querySelectorAll('*');
+        ngElement = [].slice.call(allNodes, 0).find(el => el.hasAttribute('ng-app'));
+      }
 
-  },
-  compile(node){
-    directives['ng-click'].forEach(cb => cb(node))
-  },
-  bootstrap(node) {
+      const allNodes = ngElement.querySelectorAll('*');
+      console.log(allNodes); //eslint-disable-line
 
-    node.queryselectorAll('*').forEach(el => {
-      compile(el)
-    })
+      if (ngElement) {
+        allNodes.forEach(el => {
+          this.compile(el);
+        });
+      }
+    }
+  };
+
+  // smallAngular.directive('ng-model', function(el) {
+  //   console.log('ng-model');
+  // });
+  // smallAngular.directive('ng-click', function(el) {
+  //   console.log('ng-click');
+  // });
+
+  // smallAngular.directive('ng-show', function(el) {
+  //   console.log('ng-show');
+  // });
+
+  // smallAngular.directive('ng-hide', function(el) {
+  //   console.log('ng-hide');
+  // });
+  // smallAngular.directive('make_short', function(el){
+  //  console.log('make_short');
+  // })
+  window.smallAngular = smallAngular;
+}());
+
+document.onreadystatechange = () => {
+  if (document.readyState === 'interactive') {
+    window.smallAngular.bootstrap('#app');
   }
-}
+};
 
-smallAngular.directive('ng-model', function(el){
-
-})
-smallAngular.directive('ng-click', function(el){
-
-})
-
-smallAngular.directive('ng-show', function(el){
-
-})
-
-smallAngular.directive('ng-hide', function(el){
-
-})
-window.smallAngular = smallAngular;
-})()
-
-smallAngular.directive('make_short', function(el){
-
-})
-
-smallAngular.bootstrap(node)
+// smallAngular.bootstrap(node)
+/*
+mount app to this node
+or
+find data attr ng-app - mount app to this node*/
