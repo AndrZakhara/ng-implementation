@@ -2,6 +2,14 @@
   const directives = {};
   const smallAngular = {
     directive(type, cb) {
+      if (typeof type !== 'string') {
+        throw new Error('Directive name is not a string');
+      }
+
+      if (typeof cb !== 'function') {
+        throw new Error('Directive callback is not a function');
+      }
+
       directives[type] = cb;
     },
     compile(node) {
