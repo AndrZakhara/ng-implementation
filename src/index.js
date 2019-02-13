@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 (function() {
   const directives = {};
   const smallAngular = {
@@ -10,6 +11,10 @@
         throw new Error('Directive callback is not a function');
       }
 
+      if (type in directives) {
+        throw new Error('Multiple directives are not allowed!');
+      }
+
       directives[type] = cb;
     },
     compile(node) {
@@ -17,51 +22,49 @@
       const { length } = attributes;
 
       for (let i = 0; i < length; i++) {
-        const { name } = attributes[i];
+        const { name: type } = attributes[i];
 
-        if (name in directives) {
-          directives[name](node);
-        }
+        (type in directives) && directives[type](node);
       }
     },
     bootstrap(node) {
-      let ngElement = node ? document.querySelector(node) : null;
-
-      if (node && ngElement) {
-        ngElement.setAttribute('ng-app', '');
-      } else {
-        ngElement = document.querySelector('[ng-app]');
+      if (node && !(node instanceof HTMLElement)) {
+        throw new Error('Node element in bootstrap(node) should be a DOM element!');
       }
 
-      if (ngElement) {
-        const allNodes = ngElement.querySelectorAll('*');
+      const ngElement = node instanceof HTMLElement
+        ? document.querySelector(node)
+        : document.querySelector('[ng-app]');
 
-        this.compile(ngElement);
-        allNodes.forEach(el => {
-          this.compile(el);
-        });
+      if (!ngElement) {
+        throw new Error('DOM element which is the root of AngularJS application is not selected!');
       }
+
+      const allNodes = ngElement.querySelectorAll('*');
+
+      this.compile(ngElement);
+      allNodes.forEach(el => this.compile(el));
     }
   };
 
   smallAngular.directive('ng-model', function(el) {
-    console.log('ng-model: ', el); //eslint-disable-line
+    console.log('ng-model: ', el);
   });
 
   smallAngular.directive('ng-click', function(el) {
-    console.log('ng-click: ', el); //eslint-disable-line
+    console.log('ng-click: ', el);
   });
 
   smallAngular.directive('ng-show', function(el) {
-    console.log('ng-show: ', el); //eslint-disable-line
+    console.log('ng-show: ', el);
   });
 
   smallAngular.directive('ng-hide', function(el) {
-    console.log('ng-hide: ', el ); //eslint-disable-line
+    console.log('ng-hide: ', el);
   });
 
-  smallAngular.directive('make_short', function(el) {
-    console.log('make_short: ', el); //eslint-disable-line
+  smallAngular.directive('ng-make-short', function(el) {
+    console.log('ng-make-short: ', el);
   });
 
   window.smallAngular = smallAngular;
@@ -69,6 +72,6 @@
 
 document.onreadystatechange = () => {
   if (document.readyState === 'interactive') {
-    window.smallAngular.bootstrap('#app');
+    window.smallAngular.bootstrap();
   }
 };
