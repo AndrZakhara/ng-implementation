@@ -97,10 +97,17 @@
       el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
     });
     el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
-    // console.log(el.innerHTML);
-    // console.log('name: ', eval('name'));
-    // console.log(attrs);
   });
+
+  smallAngular.directive('ng-bind', function(scope, el, attrs) {
+    const attrData = el.getAttribute('ng-bind');
+    el.innerHTML = eval(attrData);
+
+    scope.$watch('ng-bind', () => {
+      el.innerHTML = eval(attrData);
+    });
+  });
+
 
   smallAngular.directive('ng-hide', function(scope, node, attrs) {
     console.log('ng-hide: ', node);
