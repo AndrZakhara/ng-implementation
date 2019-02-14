@@ -11,6 +11,7 @@
 
   $rootScope.$watch = (name, watcher) => {
     $$watchers.push({ name, watcher });
+
     console.log($$watchers);
   };
   $rootScope.$apply = () => $$watchers.forEach(({ watcher }) => {
@@ -90,13 +91,12 @@
   });
 
   smallAngular.directive('ng-show', function(scope, el, attrs) {
-    el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
     const attrData = el.getAttribute('ng-show');
+    el.style.display = eval(attrData) ? 'block' : 'none';
 
     scope.$watch('ng-show', () => {
-      el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
+      el.style.display = eval(attrData) ? 'block' : 'none';
     });
-    el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
   });
 
   smallAngular.directive('ng-bind', function(scope, el, attrs) {
@@ -108,9 +108,14 @@
     });
   });
 
+  smallAngular.directive('ng-hide', function(scope, el, attrs) {
+    const attrData = el.getAttribute('ng-hide');
+    el.style.display = eval(attrData) ? 'none' : 'block';
 
-  smallAngular.directive('ng-hide', function(scope, node, attrs) {
-    console.log('ng-hide: ', node);
+
+    scope.$watch('ng-hide', () => {
+      el.style.display = eval(attrData) ? 'none' : 'block';
+    });
   });
 
   smallAngular.directive('ng-make-short', function(scope, node, attrs) {

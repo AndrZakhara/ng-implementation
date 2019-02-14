@@ -9,8 +9,13 @@
   <script src="bundle.js"></script>
   <title>App-ng</title>
 </head>
-<body ng-app ng-init="name='vasy'">
-  <div ng-show="name === 'petya'" style = 'color: red'> Welcome {{name}} on our site!</div>
+<body ng-app ng-init="name='Anonime'">
+  <div ng-show="name === 'User'" style = 'color: green'> 
+    <p>Welcome <span ng-bind="name"></span> on our site!</p>
+  </div>
+  <div ng-hide="name === 'User'" style = 'color: blue'> 
+    <p>Welcome <span ng-bind="name"></span> on our site!</p>
+  </div>
   <input ng-model="name"/>
   <p ng-make-short>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, est.</p>
   <p ng-bind="name"></p>
