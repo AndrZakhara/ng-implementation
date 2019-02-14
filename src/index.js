@@ -3,14 +3,17 @@
   const directives = {};
   const $$watchers = [];
   const $rootScope = window;
+
   $rootScope.myOnClick = () => {
     window.name = window.name === 'vasya' ? 'petya' : 'vasya';
     console.log(name);
   };
 
-  $rootScope.$watch = (name, watcher) => $$watchers.push({ name, watcher });
+  $rootScope.$watch = (name, watcher) => {
+    $$watchers.push({ name, watcher });
+    console.log($$watchers);
+  };
   $rootScope.$apply = () => $$watchers.forEach(({ watcher }) => {
-    console.log(watcher);
     watcher();
   });
 
@@ -70,25 +73,27 @@
     eval(el.getAttribute('ng-init'));
   });
 
-  smallAngular.directive('ng-model', function(scope, node, attrs) {
-    eval(node.getAttribute('ng-model'));
+  smallAngular.directive('ng-model', function(scope, el, attrs) {
+    el.addEventListener('keyup', e => {
+      const attrData = el.attributes['ng-model'].value;
+      scope[attrData] = el.value;
+      scope.$apply();
+    });
   });
 
   smallAngular.directive('ng-click', function(scope, el, attrs) {
-    addEventListener('click', () => {
+    el.addEventListener('click', e => {
       const attrData = el.getAttribute('ng-click');
       eval(attrData);
       scope.$apply();
     });
-
-    console.log('ng-click: ', el);
   });
 
   smallAngular.directive('ng-show', function(scope, el, attrs) {
     el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
     const attrData = el.getAttribute('ng-show');
 
-    scope.$watch(attrData, () => {
+    scope.$watch('ng-show', () => {
       el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
     });
     el.style.display = eval(el.getAttribute('ng-show')) ? 'block' : 'none';
