@@ -11,14 +11,14 @@
 </head>
 <body ng-app ng-init="name='Anonime'">
   <div ng-show="name === 'User'" style = 'color: green'> 
-    <p>Welcome <span ng-bind="name"></span> on our site!</p>
+    <p>Welcome <span ng-bind="name"></span>!</p>
   </div>
   <div ng-hide="name === 'User'" style = 'color: blue'> 
-    <p>Welcome <span ng-bind="name"></span> on our site!</p>
+    <p>Welcome <span ng-bind="name"></span>!</p>
   </div>
   <input ng-model="name"/>
   <p ng-make-short>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, est.</p>
-  <p ng-bind="name"></p>
+  <p>Name value: <span ng-bind="name" style = 'color: red'></span></p>
   <input type="button" ng-click = 'myOnClick()' value = 'button'>
 </body>
 </html>

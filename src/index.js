@@ -5,15 +5,14 @@
   const $rootScope = window;
 
   $rootScope.myOnClick = () => {
-    window.name = window.name === 'vasya' ? 'petya' : 'vasya';
+    window.name = window.name === 'Anonime' ? 'User' : 'Anonime';
     console.log(name);
   };
 
   $rootScope.$watch = (name, watcher) => {
     $$watchers.push({ name, watcher });
-
-    console.log($$watchers);
   };
+
   $rootScope.$apply = () => $$watchers.forEach(({ watcher }) => {
     watcher();
   });
@@ -37,15 +36,9 @@
     compile(node) {
       const { attributes } = node;
       const { length } = attributes;
-      const ngAttributes = []; // ng - attributes
-      // add runner to ngAttributes
 
       for (let i = 0; i < length; i++) {
         const { name: type } = attributes[i];
-
-        if (type.substring(0, 3) === 'ng-') {
-          eval(node.getAttribute(type)); // run attribute
-        }
 
         (type in directives) && directives[type]($rootScope, node, attributes);
       }
@@ -66,7 +59,7 @@
       const allNodes = ngElement.querySelectorAll('*');
 
       this.compile(ngElement);
-      allNodes.forEach(el => this.compile(el));
+      allNodes.forEach(this.compile);
     }
   };
 
