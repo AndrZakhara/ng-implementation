@@ -1,6 +1,22 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-eval*/
 (function() {
   const directives = {};
+  const $$watchers = [];
+  const $rootScope = window;
+
+  $rootScope.myOnClick = () => {
+    window.name = window.name === 'Anonime' ? 'User' : 'Anonime';
+    console.log(name);
+  };
+
+  $rootScope.$watch = (name, watcher) => {
+    $$watchers.push({ name, watcher });
+  };
+
+  $rootScope.$apply = () => $$watchers.forEach(({ watcher }) => {
+    watcher();
+  });
+
   const smallAngular = {
     directive(type, cb) {
       if (typeof type !== 'string') {
@@ -24,7 +40,7 @@
       for (let i = 0; i < length; i++) {
         const { name: type } = attributes[i];
 
-        (type in directives) && directives[type](node);
+        (type in directives) && directives[type]($rootScope, node, attributes);
       }
     },
     bootstrap(node) {
@@ -43,35 +59,68 @@
       const allNodes = ngElement.querySelectorAll('*');
 
       this.compile(ngElement);
-      allNodes.forEach(el => this.compile(el));
+      allNodes.forEach(this.compile);
     }
   };
 
-  smallAngular.directive('ng-model', function(el) {
-    console.log('ng-model: ', el);
+  smallAngular.directive('ng-init', function(scope, el, attrs) {
+    eval(el.getAttribute('ng-init'));
   });
 
-  smallAngular.directive('ng-click', function(el) {
-    console.log('ng-click: ', el);
+  smallAngular.directive('ng-model', function(scope, el, attrs) {
+    el.addEventListener('keyup', e => {
+      const attrData = el.attributes['ng-model'].value;
+      scope[attrData] = el.value;
+      scope.$apply();
+    });
   });
 
-  smallAngular.directive('ng-show', function(el) {
-    console.log('ng-show: ', el);
+  smallAngular.directive('ng-click', function(scope, el, attrs) {
+    el.addEventListener('click', e => {
+      const attrData = el.getAttribute('ng-click');
+      eval(attrData);
+      scope.$apply();
+    });
   });
 
-  smallAngular.directive('ng-hide', function(el) {
-    console.log('ng-hide: ', el);
+  smallAngular.directive('ng-show', function(scope, el, attrs) {
+    const attrData = el.getAttribute('ng-show');
+    el.style.display = eval(attrData) ? 'block' : 'none';
+
+    scope.$watch('ng-show', () => {
+      el.style.display = eval(attrData) ? 'block' : 'none';
+    });
   });
 
-  smallAngular.directive('ng-make-short', function(el) {
-    console.log('ng-make-short: ', el);
+  smallAngular.directive('ng-bind', function(scope, el, attrs) {
+    const attrData = el.getAttribute('ng-bind');
+    el.innerHTML = eval(attrData);
+
+    scope.$watch('ng-bind', () => {
+      el.innerHTML = eval(attrData);
+    });
+  });
+
+  smallAngular.directive('ng-hide', function(scope, el, attrs) {
+    const attrData = el.getAttribute('ng-hide');
+    el.style.display = eval(attrData) ? 'none' : 'block';
+
+
+    scope.$watch('ng-hide', () => {
+      el.style.display = eval(attrData) ? 'none' : 'block';
+    });
+  });
+
+  smallAngular.directive('ng-make-short', function(scope, node, attrs) {
+    console.log('ng-make-short: ', node);
   });
 
   window.smallAngular = smallAngular;
+
+  document.onreadystatechange = () => {
+    if (document.readyState === 'interactive') {
+      window.smallAngular.bootstrap();
+    }
+  };
 }());
 
-document.onreadystatechange = () => {
-  if (document.readyState === 'interactive') {
-    window.smallAngular.bootstrap();
-  }
-};
