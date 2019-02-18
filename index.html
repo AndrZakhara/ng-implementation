@@ -17,13 +17,14 @@
     <p>Welcome <span ng-bind="name"></span>!</p>
   </div>
   <input ng-model="name"/>
+  <input ng-model="name"/>
   <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste, est.</p>
   <p>Name value: <span ng-bind="name" style = 'color: red'></span></p>
   <input type="button" ng-click = 'myOnClick()' value = 'Set name'>
   <div>
     <h2>Lorem, ipsum dolor.</h2>
-    <p ng-bind="article" ng-make-short length = "200" ></p>
-    <input type="button" ng-click = "togleArticle()" class="button-article" value="Show/Hide article">
+    <p ng-bind="article" ng-make-short length = "200" class="article"></p>
+    <input type="button" ng-click = "togleArticle()" class="button-article" value="Show/Hide article" data-value="true">
   </div>
   
 </body>
