@@ -119,10 +119,10 @@
 
   smallAngular.directive('ng-bind', function(scope, el, attrs) {
     const attrData = el.getAttribute('ng-bind');
-    el.innerHTML = eval(attrData);
+    el.innerText = eval(attrData);
 
     scope.$watch(() => el.getAttribute('ng-bind'), () => {
-      el.innerHTML = eval(attrData);
+      el.innerText = eval(attrData);
     });
   });
 
@@ -138,10 +138,10 @@
 
   smallAngular.directive('ng-make-short', function(scope, el, attrs) {
     const textLength = eval(el.getAttribute('length'));
-    el.innerHTML = `${scope.article.slice(0, textLength)} ...`;
+    el.innerText = `${scope.article.slice(0, textLength)} ...`;
 
     scope.$watch(() => textLength, () => {
-      el.innerHTML = `${scope.article.slice(0, textLength)} ...`;
+      el.innerText = `${scope.article.slice(0, textLength)} ...`;
     });
   });
 
