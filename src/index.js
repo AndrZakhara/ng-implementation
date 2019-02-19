@@ -140,7 +140,7 @@
     const [, , items] = data.split(' ');
     const parent = el.parentNode;
 
-    scope.$watch(() => items, () => {
+    const renderNgRepeatTemplate = () => {
       const iterableValue = scope[items];
       const arrOfElems = document.querySelectorAll(`[ng-repeat="${data}"]`);
 
@@ -152,7 +152,10 @@
 
         parent.appendChild(nextEl);
       }
-    });
+    };
+
+    renderNgRepeatTemplate();
+    scope.$watch(() => items, renderNgRepeatTemplate);
   });
 
   window.smallAngular = smallAngular;
