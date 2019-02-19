@@ -27,6 +27,13 @@
     <p ng-bind="article" ng-make-short length = "200" class="article"></p>
     <input type="button" ng-click = "togleArticle()" class="button-article" value="Show more...." data-value="true">
   </div>
+  <p>This is your value: 
+    <span ng-bind="name"></span>
+  </p>
+  <ul>
+    <li ng-repeat="letter in name"></li>
+  </ul>
+  <input  ng-random-color type="button" value='Change my color'>
   
 </body>
 </html>

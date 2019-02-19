@@ -122,7 +122,7 @@
     });
   });
 
-  smallAngular.directive('random-color', function(scope, el, attrs) {
+  smallAngular.directive('ng-random-color', function(scope, el, attrs) {
     el.addEventListener('click', function() {
       const letters = '0123456789ABCDEF';
       let color = '#';
