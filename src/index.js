@@ -63,7 +63,7 @@
   });
 
   smallAngular.directive('ng-model', function(scope, el, attrs) {
-    const attrData = el.attributes['ng-model'].value;
+    const attrData = el.getAttribute('ng-model');
 
     el.addEventListener('keyup', e => {
       scope[attrData] = el.value;
@@ -71,7 +71,7 @@
       scope.$apply();
     });
     scope.$watch(attrData, () => {
-      const attrData = el.attributes['ng-model'].value;
+      const attrData = el.getAttribute('ng-model');
       el.value = scope[attrData];
     });
   });
@@ -80,7 +80,7 @@
     el.addEventListener('click', e => {
       const attrData = el.getAttribute('ng-click');
       eval(attrData);
-      console.log('click');
+
       scope.$apply();
     });
   });
@@ -107,8 +107,7 @@
     const attrData = el.getAttribute('ng-hide');
     el.style.display = eval(attrData) ? 'none' : 'block';
 
-
-    scope.$watch(() => el.getAttribute('ng-hide'), () => {
+    scope.$watch(() => eval(attrData), () => {
       el.style.display = eval(attrData) ? 'none' : 'block';
     });
   });
@@ -118,7 +117,7 @@
     const text = scope.article.slice(0, textLength);
     el.innerText = `${text} ...`;
 
-    scope.$watch(() => textLength, () => {
+    scope.$watch(() => eval(el.getAttribute('length')), () => {
       const textLength = eval(el.getAttribute('length'));
       const text = scope.article.slice(0, textLength);
       el.innerText = `${text} ...`;
@@ -145,7 +144,7 @@
 
     const renderNgRepeatTemplate = () => {
       const iterableValue = scope[items];
-      const arrOfElems = parent.querySelectorAll(`[ng-repeat="${data}"]`);
+      const arrOfElems = parent.querySelectorAll('[ng-repeat]');
 
       arrOfElems.forEach(el => el.remove());
 
