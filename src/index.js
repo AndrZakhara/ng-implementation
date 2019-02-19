@@ -142,7 +142,7 @@
 
     scope.$watch(() => items, () => {
       const iterableValue = scope[items];
-      const arrOfElems = Array.from(document.querySelectorAll(`[ng-repeat="${data}"]`));
+      const arrOfElems = document.querySelectorAll(`[ng-repeat="${data}"]`);
 
       for (const elem of arrOfElems) {
         elem.remove();
