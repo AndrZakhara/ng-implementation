@@ -144,9 +144,7 @@
       const iterableValue = scope[items];
       const arrOfElems = document.querySelectorAll(`[ng-repeat="${data}"]`);
 
-      for (const elem of arrOfElems) {
-        elem.remove();
-      }
+      arrOfElems.forEach(el => el.remove());
 
       for (const item of iterableValue) {
         const nextEl = el.cloneNode();
