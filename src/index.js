@@ -70,7 +70,7 @@
 
       scope.$apply();
     });
-    scope.$watch(() => el.getAttribute('ng-model'), () => {
+    scope.$watch(attrData, () => {
       const attrData = el.attributes['ng-model'].value;
       el.value = scope[attrData];
     });
@@ -80,6 +80,7 @@
     el.addEventListener('click', e => {
       const attrData = el.getAttribute('ng-click');
       eval(attrData);
+      console.log('click');
       scope.$apply();
     });
   });
