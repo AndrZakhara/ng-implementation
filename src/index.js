@@ -71,6 +71,7 @@
       scope.$apply();
     });
     scope.$watch(() => el.getAttribute('ng-model'), () => {
+      const attrData = el.attributes['ng-model'].value;
       el.value = scope[attrData];
     });
   });
