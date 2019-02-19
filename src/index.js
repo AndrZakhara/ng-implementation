@@ -145,7 +145,7 @@
 
     const renderNgRepeatTemplate = () => {
       const iterableValue = scope[items];
-      const arrOfElems = document.querySelectorAll(`[ng-repeat="${data}"]`);
+      const arrOfElems = parent.querySelectorAll(`[ng-repeat="${data}"]`);
 
       arrOfElems.forEach(el => el.remove());
 
