@@ -89,7 +89,7 @@
     const attrData = el.getAttribute('ng-show');
     el.style.display = eval(attrData) ? 'block' : 'none';
 
-    scope.$watch(() => eval(el.getAttribute('ng-show')), () => {
+    scope.$watch(() => eval(attrData), () => {
       el.style.display = eval(attrData) ? 'block' : 'none';
     });
   });
@@ -115,11 +115,13 @@
 
   smallAngular.directive('ng-make-short', function(scope, el, attrs) {
     const textLength = eval(el.getAttribute('length'));
-    el.innerText = `${scope.article.slice(0, textLength)} ...`;
+    const text = scope.article.slice(0, textLength);
+    el.innerText = `${text} ...`;
 
     scope.$watch(() => textLength, () => {
       const textLength = eval(el.getAttribute('length'));
-      el.innerText = `${scope.article.slice(0, textLength)} ...`;
+      const text = scope.article.slice(0, textLength);
+      el.innerText = `${text} ...`;
     });
   });
 
