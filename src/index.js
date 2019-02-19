@@ -88,7 +88,7 @@
     const attrData = el.getAttribute('ng-show');
     el.style.display = eval(attrData) ? 'block' : 'none';
 
-    scope.$watch(() => el.getAttribute('ng-show'), () => {
+    scope.$watch(() => eval(el.getAttribute('ng-show')), () => {
       el.style.display = eval(attrData) ? 'block' : 'none';
     });
   });
