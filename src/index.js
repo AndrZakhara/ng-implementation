@@ -97,7 +97,7 @@
     const attrData = el.getAttribute('ng-bind');
     el.innerText = eval(attrData);
 
-    scope.$watch(() => el.getAttribute('ng-bind'), () => {
+    scope.$watch(attrData, () => {
       el.innerText = eval(attrData);
     });
   });
@@ -135,13 +135,13 @@
     });
   });
 
-  smallAngular.directive('ng-repeat', function(scope, el) {
+  smallAngular.directive('ng-repeat', function(scope, el, attrs) {
     const data = el.getAttribute('ng-repeat');
-    const iterable = data.split(' ')[2];
+    const [, , items] = data.split(' ');
     const parent = el.parentNode;
 
-    scope.$watch(() => iterable, () => {
-      const iterableValue = scope[iterable];
+    scope.$watch(() => items, () => {
+      const iterableValue = scope[items];
       const arrOfElems = Array.from(document.querySelectorAll(`[ng-repeat="${data}"]`));
 
       for (const elem of arrOfElems) {
